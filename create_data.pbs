@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -q workq
+#PBS -N create_parameter_files
+#PBS -o out.txt
+#PBS -e err.txt
+#PBS -l select=1:ncpus=16:mpiprocs=16
+#PBS -l place=scatter:excl
+#PBS -l walltime=60:00:00
+#PBS -P PR293
+
+sage /home/c1016865/Raven_bound_data/create_parameter_files.sage

@@ -1,6 +1,6 @@
 import sys
 from csv import reader, writer
-load('MCs.sage')
+load('/home/c1016865/Raven_bound_data/MCs.sage')
 
 def import_params(directory, sffx):
 	"""
@@ -14,17 +14,20 @@ def import_params(directory, sffx):
 	param_file.close()
 	return params_list
 
-def import_done_data(directory):
+def import_done_data(directory, sffx):
 	"""
 	Imports the rows of parameters
 	"""
 	done_list = []
-	done_file = open('%sbound_data.csv' % directory, 'r')
-	rdr = reader(done_file)
-	for row in rdr:
-		prow = [str(Rational(eval(row[4]))), str(Rational(eval(row[5]))), str(Rational(eval(row[2]))), str(Rational(eval(row[3]))), str((eval(row[6]), eval(row[7]))), str((eval(row[8]), eval(row[9]))), str(Rational(eval(row[0]))), str(Rational(eval(row[1])))]
-		done_list.append(prow)
-	done_file.close()
+	try:
+		done_file = open('%sbound_data%i.csv' % (directory, sffx), 'r')
+		rdr = reader(done_file)
+		for row in rdr:
+			prow = [str(Rational(eval(row[4]))), str(Rational(eval(row[5]))), str(Rational(eval(row[2]))), str(Rational(eval(row[3]))), str((eval(row[6]), eval(row[7]))), str((eval(row[8]), eval(row[9]))), str(Rational(eval(row[0]))), str(Rational(eval(row[1])))]
+			done_list.append(prow)
+		done_file.close()
+	except IOError:
+		pass
 	return done_list
 
 def check_whats_done(directory, params_list):
@@ -32,17 +35,17 @@ def check_whats_done(directory, params_list):
 	Check which parameters have already been done
 	"""
 	not_done = []
-	done_list = import_done_data(directory)
+	done_list = import_done_data(directory, sffx)
 	for row in params_list:
 		if row not in done_list:
 			not_done.append(row)
 	return not_done
 
-def append_row_to_csv_file(row, directory):
+def append_row_to_csv_file(row, directory, sffx):
 	"""
 	Appends row to csv file
 	"""
-	results_file = open('%sbound_data.csv' % directory, 'a')
+	results_file = open('%sbound_data%i.csv' % (directory, sffx), 'a')
 	csv_wrtr = writer(results_file, delimiter=',')
 	csv_wrtr.writerow(row)
 	results_file.close()
@@ -73,13 +76,13 @@ def calculate_row(params):
 
 	return [float(L1), float(L2), float(mu1), float(mu2), int(n1), int(n2), float(r11), float(r12), float(r21), float(r22), Q11_ss.mean_time_to_absorbtion['0'], Q11_s.mean_time_to_absorbtion['0'], Q12_ss.mean_time_to_absorbtion['0'], Q12_s.mean_time_to_absorbtion['0'], Q2.mean_time_to_absorbtion['(0, 0)'], Q.mean_time_to_absorbtion['(0, 0)']]
 
-@ parallel
-def find_bound_data(param_list, directory):
+@parallel
+def find_bound_data(param_list, directory, sffx):
 	"""
 	Main function that goes through all parameter combinations and writes the row to csv file
 	"""
 	row = calculate_row(param_list)
-	append_row_to_csv_file(row, directory)
+	append_row_to_csv_file(row, directory, sffx)
 	return None
 
 if __name__ == '__main__':
@@ -88,6 +91,6 @@ if __name__ == '__main__':
 	sffx = int(arguments[2])
 	import_list = import_params(directory, sffx)
 	param_list = check_whats_done(directory, import_list)
-	parallel_data = find_bound_data([(p, directory) for p in param_list])
+	parallel_data = find_bound_data([(p, directory, sffx) for p in param_list])
 	for obs in parallel_data:
 		dummy = obs

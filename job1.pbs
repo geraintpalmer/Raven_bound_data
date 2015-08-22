@@ -8,4 +8,5 @@
 #PBS -l walltime=60:00:00
 #PBS -P PR293
 
+module load sage
 sage /home/c1016865/Raven_bound_data/find_bound_data.sage /home/c1016865/Raven_bound_data/parameter_files/ 0

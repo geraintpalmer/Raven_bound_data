@@ -1,5 +1,5 @@
 import csv
-directory = 'parameter_files/'
+directory = '/home/c1016865/Raven_bound_data/parameter_files/'
 
 def chunks(lst, chunk_size):
 	"""

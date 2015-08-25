@@ -27,7 +27,7 @@ def write_params_to_file(directory, sffx, lst):
 rs = [(float(r11/5), float(r12/5)) for r11 in range(1,6) for r12 in range(1,6-r11)]
 Ls = [i/10 for i in range(1,21)]
 mu1s = [1]
-mu2s = [0.5, 1.5, 2.0, 2.5]
+mu2s = [1/2, 3/2, 2, 5/2]
 ns = [0, 1, 2, 3, 4, 5]
 
 all_parameter_sets = list(cartesian_product_iterator([ns, ns, mu1s, mu2s, rs, rs, Ls, Ls]))

@@ -45,7 +45,7 @@ def append_row_to_csv_file(row, directory, sffx):
 	"""
 	Appends row to csv file
 	"""
-	results_file = open('%sbound_data%i.csv' % (directory, sffx), 'a')
+	results_file = open('%sratio_data%i.csv' % (directory, sffx), 'a')
 	csv_wrtr = writer(results_file, delimiter=',')
 	csv_wrtr.writerow(row)
 	results_file.close()

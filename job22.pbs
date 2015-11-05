@@ -9,4 +9,4 @@
 #PBS -P PR293
 
 module load sage
-sage /home/c1016865/Raven_bound_data/find_bound_data.sage /home/c1016865/Raven_bound_data/parameter_files/ 21
+sage /home/c1016865/Raven_bound_data/find_bound_data_2.sage /home/c1016865/Raven_bound_data/parameter_files/ 21

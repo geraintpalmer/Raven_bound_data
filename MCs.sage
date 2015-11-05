@@ -257,3 +257,14 @@ class TwoNodeFeedbackNetwork:
         time2absorb = [s*self.time_step for s in steps2absorb]
         self.mean_steps_to_absorbtion = {str(self.State_Space[i]): steps2absorb[i] for i in range(len(steps2absorb))}
         self.mean_time_to_absorbtion = {str(self.State_Space[i]): float(time2absorb[i]) for i in range(len(time2absorb))}
+
+    def find_absorpion_probabilities(self):
+        """
+        Finds the absorbtion probabilities of the queueing network
+        """
+        T = self.discrete_transition_matrix[:-3, :-3]
+        S = np.linalg.inv(np.identity(len(T)) - T)
+        B = self.discrete_transition_matrix[:-3,-3:]
+        A = np.matrix(S)*np.matrix(B)
+        self.absorbtion_probabilities = {str(self.State_Space[i]): [A[0,j] for j in range(3)] for i in range(len(A))}
+

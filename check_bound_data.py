@@ -5,7 +5,7 @@ def import_bound_data_file(directory):
 	Imports the bound data
 	"""
 	bound_data = []
-	bound_file = open('%sbound_data15.csv' % directory, 'r')
+	bound_file = open('%sbound_data.csv' % directory, 'r')
 	rdr = csv.reader(bound_file)
 	for row in rdr:
 		bound_data.append(row)

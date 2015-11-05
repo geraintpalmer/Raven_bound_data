@@ -73,8 +73,12 @@ def calculate_row(params):
 	Q2.find_mean_time_to_absorbtion()
 	Q = TwoNodeFeedbackNetwork(n1, n2, mu1, mu2, r11, r12, r21, r22, L1, L2)
 	Q.find_mean_time_to_absorbtion()
+	bound = min(max(Q11_ss.mean_time_to_absorbtion['0'], Q11_s.mean_time_to_absorbtion['0']), max(Q12_ss.mean_time_to_absorbtion['0'], Q12_s.mean_time_to_absorbtion['0']), Q2.mean_time_to_absorbtion['(0, 0)'])
+	ratio_inverse = Q.mean_time_to_absorbtion['(0, 0)'] / bound
+	Q.find_absorpion_probabilities()
+	pr1, pr2, pr3 = Q.absorbtion_probabilities
 
-	return [float(L1), float(L2), float(mu1), float(mu2), int(n1), int(n2), float(r11), float(r12), float(r21), float(r22), Q11_ss.mean_time_to_absorbtion['0'], Q11_s.mean_time_to_absorbtion['0'], Q12_ss.mean_time_to_absorbtion['0'], Q12_s.mean_time_to_absorbtion['0'], Q2.mean_time_to_absorbtion['(0, 0)'], Q.mean_time_to_absorbtion['(0, 0)']]
+	return [float(L1), float(L2), float(mu1), float(mu2), int(n1), int(n2), float(r11), float(r12), float(r21), float(r22), float(pr1), float(pr2), float(pr3), float(ratio_inverse)]
 
 @parallel
 def find_bound_data(param_list, directory, sffx):
